@@ -1,0 +1,71 @@
+/* Basic styling */
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Skills Section */
+#skills {
+  width: 80%;
+  margin: 40px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+
+#skills h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #444;
+}
+
+.skill {
+  margin-bottom: 20px;
+}
+
+.skill p {
+  margin: 5px 0;
+  font-weight: bold;
+}
+
+.skill-bar {
+  background: #ddd;
+  border-radius: 20px;
+  overflow: hidden;
+  height: 25px;
+}
+
+.skill-level {
+  height: 100%;
+  color: #fff;
+  text-align: right;
+  padding-right: 10px;
+  line-height: 25px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+/* Different colors for each skill */
+.html {
+  width: 90%;
+  background: #e44d26;
+}
+
+.css {
+  width: 80%;
+  background: #264de4;
+}
+
+.js {
+  width: 70%;
+  background: #f0db4f;
+  color: #000;
+}
+
+.python {
+  width: 60%;
+  background: #306998;
+}
