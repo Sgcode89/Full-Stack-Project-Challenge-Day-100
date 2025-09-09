@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Product Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="product-container">
+        <div class="product-image">
+          <img src="Headphon.jpg" alt="Product Image">
+
+        </div>
+        <div class="product-details">
+            <h1 class="product-title">Awesome Product</h1>
+            <p class="product-description">
+                This is a simple product page. Here you can see the product details, choose quantity, and add it to your cart.
+            </p>
+            <p class="product-price">$49.99</p>
+            <div class="quantity-selector">
+                <button id="decrease">-</button>
+                <input type="number" id="quantity" value="1" min="1">
+                <button id="increase">+</button>
+            </div>
+            <button class="add-to-cart" id="addToCart">Add to Cart</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
