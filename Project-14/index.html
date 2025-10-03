@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SG FOOD - Menu</title>
+<style>
+  * { box-sizing: border-box; margin:0; padding:0; }
+  body { font-family: Arial, sans-serif; background: #f8f9fa; color: #333; }
+
+  /* Navbar */
+  nav {
+    background: #f83c02;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    flex-wrap: wrap;
+  }
+  nav h1 { font-size: 1.6rem; }
+  nav ul { list-style: none; display: flex; gap: 15px; flex-wrap: wrap; }
+  nav ul li a { text-decoration: none; color: #fff; font-weight: bold; font-size: 0.9rem; }
+  nav .cart { background: #fff; color: #ff5722; padding: 6px 12px; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 5px; }
+
+  header { background: rgb(247, 247, 49); color: #fa0505; padding: 30px 20px; text-align: center; }
+  header h2 { font-size: 2rem; margin-bottom: 10px; }
+
+  .menu-section { padding: 30px 20px; max-width: 1500px; margin: auto; }
+  .menu-section h2 { text-align: center; margin-bottom: 20px; color: #ff5722; font-size: 1.8rem; }
+  .menu-items { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+  .menu-card { background: #fff; border-radius: 10px; padding: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; transition: transform 0.3s ease; }
+  .menu-card:hover { transform: translateY(-5px); }
+  .menu-card img { width: 70%; height: 300px; object-fit: cover; border-radius: 10px; }
+  .menu-card h3 { margin: 12px 0 8px; font-size: 1.2rem; }
+  .menu-card p { font-size: 0.85rem; color: #666; }
+  .price { margin-top: 8px; font-weight: bold; font-size: 1.1rem; color: #ff5722; }
+  .order-btn { margin-top: 12px; padding: 8px 18px; border: none; background: #ff5722; color: #fff; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 0.9rem; }
+  .order-btn:hover { background: #e64a19; }
+
+  footer { background: #333; color: #fff; text-align: center; padding: 12px; margin-top: 30px; font-size: 0.9rem; }
+
+  /* Modal */
+  .modal {
+    display: none; position: fixed; top:0; left:0; width:100%; height:100%;
+    background: rgba(0,0,0,0.5); justify-content: center; align-items: center;
+    z-index: 2000;
+  }
+  .modal-content {
+    background: #fff; padding: 20px; border-radius: 10px; width: 90%; max-width: 500px; max-height: 80vh; overflow-y: auto;
+    position: relative;
+  }
+  .close { position: absolute; top: 10px; right: 15px; font-size: 1.2rem; cursor: pointer; font-weight: bold; color: #333; }
+  .cart-item { display: flex; justify-content: space-between; align-items: center; margin: 10px 0; }
+  .cart-item div { margin-right: 10px; }
+  .quantity { width: 40px; text-align: center; }
+  .remove-btn { background: red; color:#fff; border:none; padding: 2px 6px; border-radius:4px; cursor:pointer; }
+
+  .total { font-weight:bold; margin-top: 15px; text-align:right; }
+
+  /* Responsive */
+  @media(max-width:768px){
+    nav { flex-direction: column; align-items: flex-start; }
+    nav ul { flex-direction: column; width: 100%; margin-top:10px; }
+    nav ul li { margin-bottom:5px; }
+    nav .cart { align-self:flex-end; margin-top:10px; }
+    header h2 { font-size: 1.6rem; }
+    .menu-card img { height: 140px; }
+  }
+  @media(max-width:480px){
+    nav h1 { font-size: 1.4rem; }
+    .menu-card img { height: 120px; }
+    .menu-card h3 { font-size: 1.1rem; }
+    .order-btn { padding: 6px 14px; font-size:0.85rem; }
+  }
+
+  /* Navbar */
+  nav{
+    background:#ff5722;
+    color:#fff;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 20px;
+    position:sticky;
+    top:0;
+    z-index:1000;
+  }
+  nav h1{font-size:1.6rem;}
+  nav .cart{background:#fff;color:#ff5722;padding:6px 12px;border-radius:5px;font-weight:bold;cursor:pointer;}
+  nav .menu-btn{
+    font-size:1.3rem;
+    background:#fff;
+    color:#ff5722;
+    border:none;
+    padding:6px 12px;
+    border-radius:5px;
+    cursor:pointer;
+  }
+
+  /* Side Menu */
+  .side-menu{
+    height:100%;
+    width:0;
+    position:fixed;
+    top:0;
+    left:0;
+    background:#fc0202de;
+    overflow-x:hidden;
+    transition:0.4s;
+    padding-top:60px;
+    z-index:2000;
+  }
+  .side-menu a{
+    padding:10px 20px;
+    text-decoration:none;
+    font-size:1.2rem;
+    color:#fff;
+    display:block;
+    transition:0.3s;
+  }
+  .side-menu a:hover{background:#e64a19;}
+  .side-menu .close-btn{
+    position:absolute;
+    top:10px;
+    right:15px;
+    font-size:1.5rem;
+    cursor:pointer;
+    color:#fff;
+  }
+
+  /* Responsive */
+  @media(max-width:768px){
+    nav .menu-btn{display:block;}
+    nav ul{display:none;}
+  }
+
+</style>
+</head>
+<body>
+
+
+
+<!-- Side Menu -->
+<div class="side-menu" id="side-menu">
+  <span class="close-btn" onclick="closeMenu()">&times;</span>
+  <li><a href="#starters" onclick="closeMenu()">Starters</a></li>
+  <li> <a href="#main-course" onclick="closeMenu()">Main Course</a></li>
+  <li>  <a href="#desserts" onclick="closeMenu()">Desserts</a></li>
+  <li> <a href="#drinks" onclick="closeMenu()">Drinks</a></li>
+</div>
+
+<nav>
+        <nav>
+  <button class="menu-btn" onclick="openMenu()">☰</button>
+</nav>
+  <h1>SG FOOD</h1>
+  <!-- <ul>
+    <li><a href="#starters">Starters</a></li>
+    <li><a href="#main-course">Main Course</a></li>
+    <li><a href="#desserts">Desserts</a></li>
+    <li><a href="#drinks">Drinks</a></li>
+  </ul> -->
+  <div class="cart" onclick="showCart()">🛒 Cart (<span id="cart-count">0</span>)</div>
+</nav>
+
+<header>
+  <h2>Welcome to SG FOOD</h2>
+  <p>Delicious food made with SG Food ❤️</p>
+</header>
+
+<!-- Menu Sections -->
+<section class="menu-section" id="starters">
+  <h2>Starters</h2>
+  <div class="menu-items">
+    <div class="menu-card">
+      <img src="images/tomato shoup.jpg" alt="Soup">
+      <h3>Tomato Soup</h3>
+      <p>Fresh and creamy tomato soup with herbs.</p>
+      <div class="price">₹120</div>
+      <button class="order-btn" onclick="addToCart('Tomato Soup',120)">Order Now</button>
+    </div>
+    <div class="menu-card">
+      <img src="images/green salad.jpg" alt="Salad">
+      <h3>Green Salad</h3>
+      <p>Healthy salad with fresh veggies and lemon.</p>
+      <div class="price">₹100</div>
+      <button class="order-btn" onclick="addToCart('Green Salad',100)">Order Now</button>
+    </div>
+  </div>
+</section>
+
+<section class="menu-section" id="main-course">
+  <h2>Main Course</h2>
+  <div class="menu-items">
+    <div class="menu-card">
+      <img src="images/veg pizza.png" alt="Pizza">
+      <h3>Cheese Pizza</h3>
+      <p>Loaded with mozzarella cheese and spices.</p>
+      <div class="price">₹250</div>
+      <button class="order-btn" onclick="addToCart('Cheese Pizza',250)">Order Now</button>
+    </div>
+    <div class="menu-card">
+      <img src="images/burger.jpg" alt="Burger">
+      <h3>Veg Burger</h3>
+      <p>Juicy veggie patty with sauces and cheese.</p>
+      <div class="price">₹180</div>
+      <button class="order-btn" onclick="addToCart('Veg Burger',180)">Order Now</button>
+    </div>
+  </div>
+</section>
+
+<section class="menu-section" id="desserts">
+  <h2>Desserts</h2>
+  <div class="menu-items">
+    <div class="menu-card">
+      <img src="images/icecream.jpg" alt="Ice Cream">
+      <h3>Ice Cream</h3>
+      <p>Vanilla ice cream topped with chocolate syrup.</p>
+      <div class="price">₹90</div>
+      <button class="order-btn" onclick="addToCart('Ice Cream',90)">Order Now</button>
+    </div>
+    <div class="menu-card">
+      <img src="images/chockolet.jpg" alt="Cake">
+      <h3>Chocolate Cake</h3>
+      <p>Soft and moist cake with rich chocolate flavor.</p>
+      <div class="price">₹150</div>
+      <button class="order-btn" onclick="addToCart('Chocolate Cake',150)">Order Now</button>
+    </div>
+  </div>
+</section>
+
+<section class="menu-section" id="drinks">
+  <h2>Drinks</h2>
+  <div class="menu-items">
+    <div class="menu-card">
+      <img src="images/cofee.jpg" alt="Coffee">
+      <h3>Cappuccino</h3>
+      <p>Hot coffee with frothy milk and cocoa dust.</p>
+      <div class="price">₹120</div>
+      <button class="order-btn" onclick="addToCart('Cappuccino',120)">Order Now</button>
+    </div>
+    <div class="menu-card">
+      <img src="images/orenge juice.jpg" alt="Juice">
+      <h3>Fresh Orange Juice</h3>
+      <p>Refreshing juice made from fresh oranges.</p>
+      <div class="price">₹80</div>
+      <button class="order-btn" onclick="addToCart('Fresh Orange Juice',80)">Order Now</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 SG FOOD. All Rights Reserved.</p>
+</footer>
+
+<!-- Cart Modal -->
+<div class="modal" id="cart-modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeCart()">&times;</span>
+    <h3>Your Cart 🛒</h3>
+    <div id="cart-items-container"></div>
+    <div class="total" id="cart-total">Total: ₹0</div>
+  </div>
+</div>
+
+<script>
+
+function openMenu(){
+  document.getElementById("side-menu").style.width = "250px";
+}
+function closeMenu(){
+  document.getElementById("side-menu").style.width = "0";
+}
+
+let cartCount = 0;
+let cartItems = [];
+
+function addToCart(item, price){
+  cartCount++;
+  document.getElementById('cart-count').innerText = cartCount;
+
+  // Check if item already in cart
+  const existing = cartItems.find(i=>i.name===item);
+  if(existing){
+    existing.quantity++;
+  } else {
+    cartItems.push({name:item, price:price, quantity:1});
+  }
+  alert(item+" added to cart! 🛒");
+}
+
+// Show Cart Modal
+function showCart(){
+  const modal = document.getElementById('cart-modal');
+  const container = document.getElementById('cart-items-container');
+  container.innerHTML = '';
+
+  let total = 0;
+  cartItems.forEach((i,index)=>{
+    total += i.price*i.quantity;
+    const div = document.createElement('div');
+    div.className = 'cart-item';
+    div.innerHTML = `
+      <div>${i.name}</div>
+      <div>₹${i.price}</div>
+      <input type="number" class="quantity" min="1" value="${i.quantity}" onchange="updateQuantity(${index}, this.value)">
+      <button class="remove-btn" onclick="removeItem(${index})">X</button>
+    `;
+    container.appendChild(div);
+  });
+  document.getElementById('cart-total').innerText = 'Total: ₹'+total;
+  modal.style.display = 'flex';
+}
+
+// Close Modal
+function closeCart(){ document.getElementById('cart-modal').style.display='none'; }
+
+// Update Quantity
+function updateQuantity(index, value){
+  value = parseInt(value);
+  if(value < 1) value=1;
+  cartItems[index].quantity = value;
+  showCart();
+}
+
+// Remove Item
+function removeItem(index){
+  cartItems.splice(index,1);
+  cartCount = cartItems.reduce((sum,i)=>sum+i.quantity,0);
+  document.getElementById('cart-count').innerText = cartCount;
+  showCart();
+}
+
+// Close modal on click outside
+window.onclick = function(e){
+  const modal = document.getElementById('cart-modal');
+  if(e.target == modal) modal.style.display = 'none';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio with Filter + Lightbox</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f9f9f9;
+      color: #333;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 2.5rem;
+      color: #222;
+    }
+
+    p {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #555;
+    }
+
+    /* Filter Buttons */
+    .filter-btns {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .filter-btns button {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      margin: 5px;
+      padding: 10px 18px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .filter-btns button:hover,
+    .filter-btns button.active {
+      background: #0056b3;
+    }
+
+    /* Portfolio Grid */
+    .portfolio {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s, opacity 0.5s ease, transform 0.5s ease;
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .card.hide {
+      opacity: 0;
+      transform: scale(0.9);
+      pointer-events: none;
+    }
+
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .card img:hover {
+      transform: scale(1.05);
+    }
+
+    .card-content {
+      padding: 15px;
+    }
+
+    .card-content h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .card-content p {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .card-content a {
+      text-decoration: none;
+      color: #fff;
+      background: #007bff;
+      padding: 8px 15px;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    .card-content a:hover {
+      background: #0056b3;
+    }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 80%;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+
+    .lightbox span {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 2rem;
+      color: #fff;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Portfolio Projects </h1>
+  <p>Some of my recent works and projects</p>
+
+  <!-- Filter Buttons -->
+  <div class="filter-btns">
+    <button class="active" onclick="filterProjects('all', event)">All</button>
+    <button onclick="filterProjects('web', event)">Web</button>
+    <button onclick="filterProjects('app', event)">App</button>
+    <button onclick="filterProjects('design', event)">Design</button>
+  </div>
+
+  <!-- Portfolio Cards -->
+  <section class="portfolio">
+    <div class="card" data-category="web">
+      <img src="web project.jpg" alt="Project 1" onclick="openLightbox(this)">
+      <div class="card-content">
+        <h3>Web Project 1</h3>
+        <p>A landing page for a startup company.</p>
+        <a href="#">View Project</a>
+      </div>
+    </div>
+
+    <div class="card" data-category="app">
+      <img src="app project.jpg" alt="Project 2" onclick="openLightbox(this)">
+      <div class="card-content">
+        <h3>App Project</h3>
+        <p>Mobile app UI design with modern features.</p>
+        <a href="#">View Project</a>
+      </div>
+    </div>
+
+    <div class="card" data-category="design">
+      <img src="Design project.jpg" alt="Project 3" onclick="openLightbox(this)">
+      <div class="card-content">
+        <h3>Design Project</h3>
+        <p>Creative UI/UX design for a portfolio site.</p>
+        <a href="#">View Project</a>
+      </div>
+    </div>
+
+    <div class="card" data-category="web">
+      <img src="web project2 .jpg" alt="Project 4" onclick="openLightbox(this)">
+      <div class="card-content">
+        <h3>Web Project 2</h3>
+        <p>Responsive e-commerce product page.</p>
+        <a href="#">View Project</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <span onclick="closeLightbox()">&times;</span>
+    <img id="lightbox-img" src="" alt="Preview">
+  </div>
+
+  <script>
+    function filterProjects(category, event) {
+      const cards = document.querySelectorAll('.card');
+      const buttons = document.querySelectorAll('.filter-btns button');
+
+      // Active button styling
+      buttons.forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      // Animate filter
+      cards.forEach(card => {
+        if (category === 'all' || card.getAttribute('data-category') === category) {
+          card.classList.remove('hide');
+        } else {
+          card.classList.add('hide');
+        }
+      });
+    }
+
+    // Lightbox Functions
+    function openLightbox(img) {
+      document.getElementById('lightbox').style.display = 'flex';
+      document.getElementById('lightbox-img').src = img.src;
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').style.display = 'none';
+    }
+
+    // Close when clicking outside image
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeLightbox();
+      }
+    });
+  </script>
+</body>
+</html>

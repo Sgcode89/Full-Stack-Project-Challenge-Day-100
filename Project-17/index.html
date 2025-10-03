@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Landing Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background: #007BFF;
+            color: white;
+            padding: 20px 0;
+            transition: background 0.3s;
+        }
+
+        header:hover {
+            background: #0056b3;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+            color: #FFC107;
+            transform: scale(1.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 80px 20px;
+            background: red;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease-in-out;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease-in-out;
+        }
+
+        .hero a.button {
+            padding: 10px 30px;
+            font-size: 1rem;
+            border: none;
+            background: #FFC107;
+            color: #333;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .hero a.button:hover {
+            background: #e0a800;
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Sections */
+        section {
+            padding: 60px 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #007BFF;
+        }
+
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .service-card {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* About Section */
+        .about {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .about img {
+            max-width: 400px;
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .about img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 40px 20px 20px 20px;
+            position: relative;
+        }
+
+        footer h3 {
+            margin-bottom: 20px;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: none;
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            box-shadow: 0 0 10px #007BFF;
+            transform: scale(1.02);
+        }
+
+        .contact-form button {
+            padding: 10px 30px;
+            border: none;
+            background: #007BFF;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .contact-form button:hover {
+            background: #0056b3;
+            transform: scale(1.05);
+        }
+
+        /* Back to Top Button */
+        #backToTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: none;
+            background: #007BFF;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        #backToTop:hover {
+            background: #0056b3;
+            transform: scale(1.1);
+        }
+
+        @media (min-width: 768px) {
+            .hero {
+                flex-direction: row;
+                text-align: left;
+            }
+
+            .hero div {
+                max-width: 50%;
+            }
+
+            .about {
+                flex-direction: row;
+                text-align: left;
+                gap: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <h1>MyCompany</h1>
+                <div>
+                    <a href="#services">Services</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div>
+            <h1>Welcome to MyCompany</h1>
+            <p>We provide the best solutions for your business needs. Grow, innovate, and succeed with us!</p>
+            <a href="#contact" class="button">Get Started</a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <h2>Our Services</h2>
+        <div class="container services">
+            <div class="service-card">
+                <h3>Web Development</h3>
+                <p>Custom websites and web apps to grow your business online.</p>
+            </div>
+            <div class="service-card">
+                <h3>UI/UX Design</h3>
+                <p>Designs that are beautiful, responsive, and user-friendly.</p>
+            </div>
+            <div class="service-card">
+                <h3>Digital Marketing</h3>
+                <p>Promote your brand and reach a wider audience effectively.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2>About Us</h2>
+        <div class="container about">
+            <img src="team.jpg" alt="Team">
+            <p>MyCompany is dedicated to delivering top-quality solutions that help businesses achieve their goals. Our team of experts works tirelessly to innovate and provide outstanding service to every client.</p>
+        </div>
+    </section>
+
+    <!-- Footer with Contact Form -->
+    <footer id="contact">
+        <h3>Contact Us</h3>
+        <form class="contact-form">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea rows="5" placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+        <p style="margin-top: 20px;">&copy; 2025 MyCompany. All rights reserved.</p>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop">&#8679; Top</button>
+
+    <script>
+        const backToTop = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.style.display = 'block';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

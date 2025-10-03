@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple Blog Layout</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+        background: rgb(134, 133, 133);
+        color: rgb(255, 254, 254)fff;
+      }
+
+      header {
+        background: #222;
+        color: #fff;
+        padding: 1px;
+        text-align: center;
+      }
+
+      nav {
+        background: #444;
+        display: flex;
+        justify-content: center;
+      }
+
+      nav a {
+        color: #fff;
+        padding: 14px 20px;
+        text-decoration: none;
+        transition: background 0.3s;
+      }
+
+      nav a:hover {
+        background: #333;
+      }
+
+      .container {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 20px;
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 0 20px;
+      }
+
+      .blog-post {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+
+      .blog-post h2 {
+        margin-top: 0;
+      }
+
+      .blog-post p {
+        text-align: justify;
+      }
+
+      aside {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        height: fit-content;
+      }
+
+      footer {
+        background: #222;
+        color: #fff;
+        text-align: center;
+        padding: 15px;
+        margin-top: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>My Simple Blog</h1>
+      <p>Sharing thoughts, ideas & tutorials</p>
+    </header>
+
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Blog</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+
+    <div class="container">
+      <!-- Blog Content -->
+      <main>
+        <article class="blog-post">
+          <h2>Blog Post Title 1</h2>
+          <p><em>Posted on Sep 13, 2025</em></p>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+            vitae eros ac libero tristique viverra. Proin vel mi vel felis
+            cursus finibus...
+          </p>
+        </article>
+
+        <article class="blog-post">
+          <h2>Blog Post Title 2</h2>
+          <p><em>Posted on Sep 10, 2025</em></p>
+          <p>
+            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+            accusantium doloremque laudantium. Nemo enim ipsam voluptatem quia
+            voluptas sit...
+          </p>
+        </article>
+      </main>
+
+      <!-- Sidebar -->
+      <aside>
+        <h3>About Me</h3>
+        <p>
+          Hi, I’m Suraj! A passionate developer sharing coding tutorials and
+          tips.
+        </p>
+
+        <h3>Categories</h3>
+        <ul>
+          <li>Web Development</li>
+          <li>JavaScript</li>
+          <li>Frontend</li>
+          <li>Backend</li>
+        </ul>
+
+        <h3>Recent Posts</h3>
+        <ul>
+          <li>How to Build a Portfolio</li>
+          <li>10 CSS Tricks You Must Know</li>
+          <li>Getting Started with Node.js</li>
+        </ul>
+      </aside>
+    </div>
+
+    <footer>
+      <p>&copy; 2025 My Simple Blog | All Rights Reserved</p>
+    </footer>
+  </body>
+</html>

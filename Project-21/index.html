@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Calculator</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+body { display: flex; justify-content: center; align-items: center; height: 100vh; background: #f5f5f5; }
+.calculator { background: #222; padding: 20px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+.display input { width: 100%; height: 60px; background: #333; color: #fff; border: none; text-align: right; font-size: 2rem; padding: 10px; border-radius: 8px; margin-bottom: 10px; }
+.buttons { display: grid; grid-template-columns: repeat(4, 80px); grid-gap: 10px; }
+.btn { padding: 20px; font-size: 1.5rem; border: none; border-radius: 8px; cursor: pointer; background: #444; color: #fff; transition: 0.2s; }
+.btn:hover { background: #666; }
+.btn.operator { background: #ff9500; }
+.btn.operator:hover { background: #ffa733; }
+.btn.equal { background: #00cc66; grid-row: span 2; }
+.btn.equal:hover { background: #33dd88; }
+.btn.zero { grid-column: span 2; }
+</style>
+</head>
+<body>
+<div class="calculator">
+  <div class="display">
+    <input type="text" id="result" disabled placeholder="0">
+  </div>
+  <div class="buttons">
+    <button class="btn clear" id="all-clear">AC</button>
+    <button class="btn clear" id="clear">C</button>
+    <button class="btn operator" data-operator="/">÷</button>
+    <button class="btn operator" data-operator="*">×</button>
+
+    <button class="btn number" data-number="7">7</button>
+    <button class="btn number" data-number="8">8</button>
+    <button class="btn number" data-number="9">9</button>
+    <button class="btn operator" data-operator="-">−</button>
+
+    <button class="btn number" data-number="4">4</button>
+    <button class="btn number" data-number="5">5</button>
+    <button class="btn number" data-number="6">6</button>
+    <button class="btn operator" data-operator="+">+</button>
+
+    <button class="btn number" data-number="1">1</button>
+    <button class="btn number" data-number="2">2</button>
+    <button class="btn number" data-number="3">3</button>
+    <button class="btn equal" id="equals">=</button>
+
+    <button class="btn number zero" data-number="0">0</button>
+    <button class="btn number" data-number=".">.</button>
+  </div>
+</div>
+
+<script>
+const result = document.getElementById('result');
+const numberButtons = document.querySelectorAll('.number');
+const operatorButtons = document.querySelectorAll('.operator');
+const clearBtn = document.getElementById('clear');
+const allClearBtn = document.getElementById('all-clear');
+const equalsBtn = document.getElementById('equals');
+
+let expression = '';
+const operatorMap = { '×':'*', '÷':'/' };
+
+// Button clicks
+numberButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    expression += button.dataset.number;
+    result.value = expression;
+  });
+});
+
+operatorButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const lastChar = expression.slice(-1);
+    let op = button.dataset.operator;
+    if (op in operatorMap) op = operatorMap[op];
+    if (expression === '') return;
+    if (['+', '-', '*', '/'].includes(lastChar)) {
+      expression = expression.slice(0, -1) + op;
+    } else {
+      expression += op;
+    }
+    result.value = expression;
+  });
+});
+
+equalsBtn.addEventListener('click', calculateResult);
+clearBtn.addEventListener('click', () => { expression = ''; result.value = ''; });
+allClearBtn.addEventListener('click', () => { expression = ''; result.value = ''; });
+
+// Keyboard support
+document.addEventListener('keydown', (e) => {
+  if ((e.key >= '0' && e.key <= '9') || e.key === '.') {
+    expression += e.key;
+    result.value = expression;
+  } else if (['+', '-', '*', '/'].includes(e.key)) {
+    const lastChar = expression.slice(-1);
+    if (expression === '') return;
+    if (['+', '-', '*', '/'].includes(lastChar)) {
+      expression = expression.slice(0, -1) + e.key;
+    } else {
+      expression += e.key;
+    }
+    result.value = expression;
+  } else if (e.key === 'Enter' || e.key === '=') {
+    calculateResult();
+  } else if (e.key === 'Backspace') {
+    expression = expression.slice(0, -1);
+    result.value = expression;
+  } else if (e.key.toLowerCase() === 'c') {
+    expression = '';
+    result.value = '';
+  }
+});
+
+function calculateResult() {
+  if (expression === '') return;
+  try {
+    let evalResult = eval(expression);
+    result.value = evalResult;
+    expression = evalResult.toString();
+  } catch {
+    result.value = 'Error';
+    expression = '';
+  }
+}
+</script>
+</body>
+</html>
